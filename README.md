@@ -147,3 +147,28 @@ repeat(2) {
 }
 //Hello!;Hello!
 ```
+
+#### Null Safety
+Safe call operator
+```kotlin
+var numberOfBook: Int? = null
+```
+Test value null
+```kotlin
+var numberOfBooks = 10
+if (numberOfBooks != null) {
+    numberOfBooks = numberOfBooks.dec()
+}
+// Kotlin use safe call
+var numberOfBook = 10
+numberOfBooks = numberOfBook?.dec()
+
+// Noll Pointer Exception
+val len = s!!.length
+```
+
+##### Elvis
+```kotlin
+// default value
+numberOfBooks = numberOfBooks?.dec() ?: 0
+```
