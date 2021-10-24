@@ -93,4 +93,57 @@ if(numberOfStudent in 1..100) {
 }
 // 50
 ```
+##### When
+```kotlin
+when (results) {
+    0 -> println("No result")
+    in 1..39 -> println("Got results!")
+    else -> println("That's a lot of results!")
+}
+// Thai's a lot of results!
+```
+##### For Loops
+```kotlin
+var pets = arrayOf("Dog","Cat", "Rabbit")
+for (item in pets) {
+    println(item + " ")
+}
+// Dog Cat Rabbit
 
+// Elements and Indexes
+for((index, item) in pets.withIndex()) {
+    println("Item at $index is $element\n")
+}
+// Item at 0 is Dog
+// Item at 1 is Cat
+// Item at 2 is Rabbit
+
+// Step sizes and ranges
+for (i in 1..5) {
+    print(i)
+}
+// 12345
+
+for (i in 5 downTo 1) {
+    print(i)
+}
+// 54321
+
+for (i in 3..6 step 2) {
+    print(i)
+}
+// 35
+
+for (i in 'd'..'g') {
+    print(i)
+}
+// defg
+```
+
+##### Repeat Loops
+```kotlin
+repeat(2) {
+    print("Hello!")
+}
+//Hello!;Hello!
+```
