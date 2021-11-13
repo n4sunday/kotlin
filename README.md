@@ -172,3 +172,39 @@ val len = s!!.length
 // default value
 numberOfBooks = numberOfBooks?.dec() ?: 0
 ```
+
+#### List and Array
+##### List
+`Immutable List` (List ที่ไม่สามารถเปลี่ยนแปลงค่าได้)
+```kotlin
+val instruments = listOf("trumpet","piano","violin")
+println(instruments)
+// "trumpet","piano","violin"
+```
+`Mutable List` (List ที่สามารถเปลี่ยนแปลงค่าได้)
+```kotlin
+val myList = mutableListOf("trumpet","piano","violin")
+myList.remove("violin")
+```
+
+##### Array
+- for sorting or search
+- fix size (Immutable)
+
+```kotlin
+import java.util.*val pets = arrayOf("Dog","Cat", "Rabbit")
+println(java.util.Arrays.toString(pets))
+// ["Dog","Cat", "Rabbit"]
+
+// Create array muti tyle
+val mix = arrayOf("Solidity",2)
+
+// Create array fix type
+val mix = intArrayOf(1,2,3)
+
+// Combine array
+val number1 = intArrayOf(1,2,3)
+val number2 = intArrayOf(4,5,6)
+val combined = number1 + number2
+println(Arrays.toString(combined))
+```
