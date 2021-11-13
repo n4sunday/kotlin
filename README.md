@@ -1,5 +1,6 @@
 # Kotlin
 
+
 ### 🚀 ประโยชน์ของ Kotlin
 
 - ชัดเจนและรัดกุม (Expressive and concise)
@@ -172,6 +173,7 @@ val len = s!!.length
 // default value
 numberOfBooks = numberOfBooks?.dec() ?: 0
 ```
+<<<<<<< HEAD
 
 #### List and Array
 ##### List
@@ -208,3 +210,5 @@ val number2 = intArrayOf(4,5,6)
 val combined = number1 + number2
 println(Arrays.toString(combined))
 ```
+=======
+>>>>>>> 45bbdb4843ecc6d865c94f517124cea4114f260b
