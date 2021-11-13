@@ -385,3 +385,349 @@ val numberSets = listOf(setOf(1,2,3), setOf(4,5), setOf(1,2))
 println(numberSets.flatten())
 // [1, 2 ,3 ,4 ,1 ,2]
 ```
+
+
+
+
+### 🚀 Functions
+
+- Default parameters(ค่าตั้งต้น)
+- Required parameters(บังัคับให้ใส่ค่า)
+- Named arguments(ตั้งชื่อตัวแปรได้)
+
+#### Default parameters
+```kotlin
+fun drive(speed: String = "fast") {
+    println("driving $speed")
+}
+
+drive()
+// driving fast
+```
+
+#### Required parameter
+```kotlin
+fun tempToday(day: String, temp: Int) {
+    println("Today is $day and it's $temp degrees.")
+}
+```
+
+#### Default and Required oaraneters
+```kotlin
+
+fun mobile(color: String="black", model: String) {
+    // ...
+}
+```
+
+#### Named arguments
+```kotlin
+car(str, model="Honda", color="red")
+```
+
+#### Compact Functions
+Compact Functions เป็นรูปแบบอย่างหนึ่งในการเขียนโค้ดสำหรับ Function ที่จะช่วยทำให้คำสั่งที่อยู่ใน Function นั้น ๆ อยู่ในรูปแบบที่สั้นกระชับมากขึ้น เหมาะกับ Function ที่มี Return Type และมีคำสั่งข้างในไม่เยอะเพื่อลดจำนวนโค้ดที่ไม่จำเป็นให้น้อยลง
+
+`EX Nomal Function`
+```kotlin
+fun calculateArea(width: Int, height: Int): Int {
+    return width * height
+}
+
+fun createSampleUser(): Person {
+    return Person.Builder()
+        .name("John")
+        .age(28)
+        .job("Software Engineer")
+        .create()
+}
+```
+เมื่อเขียนในรูปแบบของ Compact Function จะไม่ต้องใส่เครื่องหมาย `{` กับ `}` และใช้เครื่องหมาย `=` ต่อท้าย Function ได้เลย
+`EX Compact Function`
+```kotlin
+fun calculateArea(width: Int, height: Int) = width * height
+
+fun createSampleUser(): Person = 
+    Person.Builder()
+        .name("John")
+        .age(28)
+        .job("Software Engineer")
+        .create()
+        .create()
+```
+จะเห็นว่า Compact Function จะใส่ Return Type หรือไม่ก็ได้ โดยการใส่ Return Type จะช่วยให้อ่านและเข้าใจได้ง่ายเท่านั้น ไม่มีผลต่อการทำงานใด ๆ ของ Compact Function
+
+#### Lambdas and higher-order function
+##### Lambdas
+```kotlin
+val waterFilter: (Int) -> Int = {level -> level / 2 }
+```
+
+```kotlin
+val enc1: (String) -> String = { input -> input.toUpperCase() }
+println(encodeMsg("abc, enc1"))
+```
+
+```kotlin
+fun enc2(input:String): String = input.reversed()
+encodeMessage("abc", ::enc2)
+```
+
+`Ex Nomal Function`
+```kotlin
+fun compare(a: String, b: String) {
+    return a.length < b.length
+}
+```
+
+`Ex Lambda Expression`
+```kotlin
+// Function type variable
+val compare: (String, String) -> Boolean = { a, b -> a.length < b.length
+}
+
+// Anonymous function
+fun max(string: String, compare:(String, String) -> Boolean)
+
+max("1234", { a, b -> a.length < b.length})
+```
+
+`Lambda Expression จะมี Syntax แบบเต็มดังนี้`
+```kotlin
+val sum: (Int, Int) -> Int = { x: Int, y: Int -> 
+   x + y 
+}
+```
+- โค้ดทั้งหมดของ Lambda Expression จะอยู่ในเครื่องหมายปีกกาเสมอ
+- Parameter จะขึ้นอยู่กับ Function Type ที่ประกาศไว้ โดยข้างใน Lambda Expression จะกำหนดเป็นชื่อตัวแปรใด ๆ ก็ได้ (ในตัวอย่างกำหนดชื่อเป็น x และ y)
+- คำสั่งที่จะทำงานใน Lambda Expression จะอยู่ต่อท้ายเครื่องหมาย > เสมอ
+- ผลลัพธ์ที่ได้จากคำสั่งในบรรทัดสุดท้าย จะกลายเป็นผลลัพธ์ของ Lambda Expression เสมอ จึงไม่จำเป็นต้องใส่ Keyword ว่า return ไว้ที่บรรทัดสุดท้าย
+
+เขียน Lambda Expression ให้อยู่ในรูปแบบย่อ
+```kotlin
+val sum: (Int, Int) -> Int = { x, y -> x + y }
+val sum = { x: Int, y: Int -> x + y }
+```
+กรณีที่ Lambda Expression มี Parameter แค่เพียงตัวเดียว สามารถใช้ `it`
+```kotlin
+val filter: (String) -> Boolean = { it.length == 5 }
+```
+มี Parameter บางตัวที่ไม่ใช้งานก็สามารถใช้เครื่องหมาย `_`
+```kotlin
+val filterWithIndex: (Int, String) -> Boolean = { _, value ->    
+     value.length == 5
+}
+```
+
+##### Higher-order Functions
+Higher-order Functions คือ Function ใด ๆ ก็ตามที่รับ Function เป็น Parameter หรือมี Return Type เป็น Function
+```kotlin
+fun find(date: Array<String>, predicate: (String) -> Boolean): String? {
+    for (element in data) {
+        if(predicate(element)) {
+          return element  
+        }
+    }
+    return null
+}
+```
+
+```kotlin
+val items = arrayOf("Apple", "Banana", "Coconut")
+val result1: String? = find(items) { it.contains("A") } // Result: "Apple"
+val result1: String? = find(items) { it.length == 6 } // Result: "Banana"
+```
+
+#### List Filter
+
+`Ex one parameter`
+```kotlin
+val ints = listOf(1,2,3)
+ints.filter { it > 0 }
+```
+##### Eager and Lazy Filters
+- `Eager`: ถูกประมวลผลทุกครั้ง แม้ข้อมูลไม่ได้ถูกวนำมาใช้งาน
+- `Lazy`: ถูกประมวลผลเมื่อถูกเรียกใช้งานระหว่าง runtime
+
+##### Convert List
+- map() : convert all item in function and return list
+```kotlin
+val numbers = setOf(1,2,3)
+println(numbers.map {it * 3})
+// [3, 6 ,9]
+```
+
+- flatten() : combine list and return one list
+```kotlin
+val numberSets = listOf(setOf(1,2,3), setOf(4,5), setOf(1,2))
+println(numberSets.flatten())
+// [1, 2 ,3 ,4 ,1 ,2]
+```
+
+
+### 🚀 Classes and Objects
+#### ✨ Classes
+Class 
+- blueprint สำหรับ object
+- กำหนด methods ที่ทำงานบน object instances
+`Ex`
+House Class
+- Date
+  - Color (String)
+  - NumberOfWindows (Int)
+  - Sell (Boolean)
+- Behavior
+  - updateColor()
+  - putOnSale()
+
+`Define Class`
+```kotlin
+class House {
+    val color: String = "white"
+    val numberOfWindows: Int = 5
+    val sell: Boolean = false
+    
+    fun updateColor(newColor: String) {
+        // ....
+    }
+}
+```
+`Create Class`
+```kotlin
+val myHouse = House()
+// not new House()
+println(myHouse)
+```
+
+##### Constructors
+- without parameters ex. class A
+- parameter
+  - class B(x: Int)
+  - class C(val y: Int)
+`Ex`
+```kotlin
+// class A
+val aa = A()
+
+// class B(x: Int)
+val bb = B(12)
+
+// class C(val y: Int)
+val cc = C(42)
+```
+##### Default parameters
+```kotlin
+class Box(
+    val length: Int,
+    val width: Int = 20,
+    val height: Int = 40
+)
+
+val box1 = Box(100,20,40)
+val box2 = Box(length = 100)
+val box3 = Box(length = 100, width = 20, height = 40)
+```
+
+##### Primary Constructor
+```kotlin
+class Circle(i: Int) {
+    init {
+        // ...
+    }
+}
+
+```
+
+##### Initializer block
+use `init`
+```kotlin
+class Square(val side: Int) {
+    init {
+        println(side * 2)
+    }
+}
+
+val s = Square(10)
+// 20
+```
+##### Multi Constructor
+```kotlin
+class Circle(val radius: Double) {
+    constructor(name:String) : this(1.0)
+    constructor(diameter: Int) : this(diameter / 2.0) {
+        println("in diameter constructor")
+    }
+  
+    init {
+        println("Area: ${Math.PI *& radius * radius}")
+    }
+}
+
+val c = Circle(3)
+```
+
+```kotlin
+class Person(var name: String)
+
+fun main() { 
+  val person = Person("Sunday")
+  println(person.name) // use getter
+  person.name = "Friday" // use setter case var
+  println(person.name)
+}
+```
+
+##### Custom Getters and Setters
+- Override get() for property
+- Override set() for property (case var)
+
+`Format`
+```kotlin
+var propertyuName: DataType = initialValue
+        get() = //...
+        set(value) {
+           // ...
+        }
+```
+
+`Ex Custome Getter`
+```kotlin
+class Person(val firstName: String, val lastName: String) {
+  val fullName: String
+    get() {
+        return "$firstName $lastName"
+    }
+}
+
+val person = Person("John", "Snow")
+println(person.fullName)
+// John Snow
+```
+
+`Ex Custome Setter`
+
+```kotlin
+class Person(val firstName: String, val lastName: String) {
+  var fullName: String = ""
+    get() = "$firstName $lastName"
+    set(value) {
+        val components = valse.split(" ")
+        firstName = components[0]
+        lastName = components[1]
+        field = value
+    }
+}
+
+val person = Person("John", "Snow")
+person.fullName = "Luffy Monkey"
+```
+
+#### ✨ Inheritance
+
+
+#### ✨ Extension Function
+
+
+#### ✨ Organizing your code
+
+
