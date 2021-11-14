@@ -795,6 +795,34 @@ fun ClassName.functionNmae (params) { body }
 - เพิ่ม function การใช้งานให้ class ที่ไม่ได้เป็นเจ้าของ
 
 #### Special Classes
+
+##### Data class
+`Ex`
+```kotlin
+data class Player(val name: String, val score: Int)
+
+val firstPlayer = Player("Sunday",10)
+println(firstPlayer)
+// Player(name="Sunday", score=1)
+```
+
+##### Pair and Triple
+- Data class ที่กำหนดไว้ล้วงหน้า
+- เข้าถึงตัวแปรด้วย .first, .second, .third
+
+`Ex`
+```kotlin
+val bookAuthor = Pair("Star Wars", "George Lucas")
+println(bookAuthor)
+// ("Star Wars", "George Lucas")
+
+val bookAuthorYear = Triple("Star Wars Episodes III", "George Lucas", 2548)
+println(bookAuthorYear)
+println(bookAuthorYear.third)
+// ("Star Wars Episodes III", "George Lucas", 2548)
+// 2548
+```
+
 ##### Enum Class
 Enum Class เป็นรูปแบบของ Class ที่ใช้กำหนดข้อมูลใด ๆ ก็ตามที่มีจำนวนและค่าที่เฉพาะเจาะจง โดยใส่ Keyword ว่า `enum` ไว้ที่ข้างหน้า `class`
 ```kotlin
