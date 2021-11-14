@@ -723,11 +723,149 @@ person.fullName = "Luffy Monkey"
 ```
 
 #### ✨ Inheritance
+- Kotlin มีโครงสร้าง inheritance แบบ single-parent class
+- ในแต่ละ class จะมีเพียงหนึ่ง parent class เรียกว่า superclass
+- Subclass แต่ละอันจะได้รับการสืบทอดสมาชิกทั้งหมดจาก superclass รวมไปถึง class ที่ superclass ได้รับการสืบทอดมาด้วย
 
+##### Interfaces 
+- เป็นการทำข้อตกลงทุก implementing class จำเป็นต้องทำตาม
+- สามารถกำหนด method signatures และ property names
+- interface สามารถสืบทอดมาจาก interface อื่น ๆ ได้
+
+`Ex Format`
+```kotlin
+interface NameOfInterface {
+    // ...
+}
+```
+`Ex`
+```kotlin
+interface Shape {
+    fun computeArea(): Double
+}
+
+class Circle(val redius: Double): Shape {
+    override fun computeArea() = Math.PI * radius * radius
+}
+val c = Circle(3.0)
+println(c.computeArea(3.0))
+```
+##### Create New Class
+- Kotlin Class เริ่มต้นนั้นจะไม่มี subclass (not subclassable)
+- ใช้ `open` เพื่ออนุญาตให้มี class ย่อย (Subclassing)
+- Properties และ function ถูกกำหนดค่าใหม่ด้วย `override`
+- class default final
+
+##### Abstract classes
+- กำหนด abstract หน้า class 
+- จำเป็นต้องเป็น Subclass
+- คล้าย interface ที่เพิ่มความสามารถในการจัดเก็บ state
+- Properties และ Function ที่เป็น abstract จำเป็นต้องถูกแทนที่ (override)
+- สามารถรวม Properties และ Function ที่เป็น non-abstract ได้
+`Ex`
+```kotlin
+abstract class Food {
+    abstract val kcal : Int
+    abstract val name : String
+    fun consume() = println("I'm eating ${name}")
+}
+class Pizza(): Food() { 
+    override val kcal kcal = 600
+    override val name = "Pizza"
+}
+fun main() {
+    Pizza().consume()
+}
+// I'm eating Pizza
+```
 
 #### ✨ Extension Function
+- สร้าง class ใหม่จาก class ที่มีอยู่แล้ว (subclass)
+- เพิ่ม function การทำงานให้กับ class โดยไม่ต้องสร้างใหม่ (extension function)
+- ไม่ได้แก้ class ที่มีอยู่
+- ไม่สามารถเข้าถึงตัวแปรที่เป็น private instance
 
+`Ex Format`
+```kotlin
+fun ClassName.functionNmae (params) { body }
+```
 
+##### Why use Extens;ion function
+- เพิ่ม function การทำงานให้ class ที่ไม่ได้ open
+- เพิ่ม function การใช้งานให้ class ที่ไม่ได้เป็นเจ้าของ
+
+#### Special Classes
+##### Enum Class
+Enum Class เป็นรูปแบบของ Class ที่ใช้กำหนดข้อมูลใด ๆ ก็ตามที่มีจำนวนและค่าที่เฉพาะเจาะจง โดยใส่ Keyword ว่า `enum` ไว้ที่ข้างหน้า `class`
+```kotlin
+enum class Direction {
+   NORTH, 
+   SOUTH, 
+   WEST, 
+   EAST
+}
+```
+`Ex`
+```kotlin
+val north: Direction = Direction.NORTH
+val west: Direction = Direction.WEST
+```
+นอกจากนี้ Enum Class สามารถมี Property ได้เช่นกัน จึงเหมาะกับข้อมูลที่มีค่าแบบเจาะจงและไม่มีการเปลี่ยนแปลงของข้อมูล
+```kotlin
+ enum class Language(var code: String) {    
+   ENGLISH("en"),    
+   JAPANESE("ja"),    
+   KOREAN("ko"),    
+   RUSSIAN("ru"),    
+   THAI("th")
+ }
+ val thaiCode = Language.THAI.code
+```
+เนื่องจาก Enum Class เป็นข้อมูลที่มีจำนวนแบบเจาะจง ทำให้การใช้งานร่วมกับคำสั่งอย่าง When จะทำให้ Compiler สามารถรู้จำนวนข้อมูลที่มีใน Enum Class นั้น ๆ ได้ทันที
+```kotlin
+ val language = Language.ENGLISH
+ val result: String = when(language) {    
+   Language.ENGLISH -> "English"    
+   Language.JAPANESE -> "Japanese"    
+   Language.KOREAN -> "Korean"    
+   Language.THAI -> "Thai"
+ }
+```
+##### Singleton
+Singleton เป็นหนึ่งใน Software Design Pattern ที่ต้องการสร้าง Instance ของ Class ขึ้นมาแค่เพียงตัวเดียว และเมื่อมีการเรียกใช้งานจากที่ใดก็ตามจะใช้ Instance ตัวดังกล่าวเสมอ จะไม่สร้าง Instance ตัวใหม่ขึ้นมาในภายหลังจนกว่าจะสิ้นสุดการทำงานของโปรแกรม
+
+การสร้าง Class ใด ๆ ก็ตามให้เป็น Singleton ในภาษา Kotlin จะใช้ Keyword ว่า `object` แทน `class`
+```kotlin
+object UserProvider {    
+   var currentName: String = "Skooldio"    
+   fun getUser(): User {        
+   // ...
+   }
+}
+```
+โดยการทำงานของ `object` จะเปรียบเสมือน Class ตัวหนึ่ง ที่ข้างในสามารถมี Variable และ Function ได้
+```kotlin
+val name: String = UserProvider.currentName
+val user: User = UserProvider.getUser()
+```
+
+##### Companion Object
+เมื่อต้องการให้ Class ใด ๆ มีคำสั่งหรือข้อมูลที่เรียกใช้งานจากที่ไหนก็ได้ทันที โดยไม่ต้องสร้าง Instance ของ Class นั้นขึ้นมาก่อน ในภาษา Kotlin จะต้องใช้ความสามารถที่เรียกว่า Companion Object
+
+```kotlin
+ class User {    
+   companion object {        
+     const val DEFAULT_NAME = "Sunday"        
+     fun newUser() = User()    
+   }
+ }
+```
+Variable หรือ Function ใด ๆ ที่อยู่ใน Companion Object ของ Class นั้น ๆ จะถูกเรียกใช้งานได้ทันที
+```kotlin
+val name = User.DEFAULT_NAME
+val user = User.newUser()
+```
 #### ✨ Organizing your code
+
 
 
